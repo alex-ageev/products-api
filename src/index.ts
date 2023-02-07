@@ -1,8 +1,8 @@
 import express from "express";
 import mongoose from "mongoose";
+import productRouter from "./productRouter";
 const app = express();
 const PORT = 5000;
-import productRouter from "./router";
 
 const MONGO_URI =
   "mongodb+srv://user:user@cluster0.p1fsqgv.mongodb.net/?retryWrites=true&w=majority";
@@ -26,11 +26,16 @@ const startApp = async () => {
 
 startApp();
 
-const router = express.Router();
+const appRouter = express.Router();
 
-router.get("/", (req: express.Request, res: express.Response) => {
+appRouter.get("/", (req: express.Request, res: express.Response) => {
   res.status(200).send("ok");
 });
 
-app.use(router);
+// appRouter.get("*", (req: express.Request, res: express.Response) => {
+//   res.status(404).send("Not found");
+// });
+
+
+app.use(appRouter);
 app.use("/api", productRouter)
