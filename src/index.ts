@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
-import productRouter from "./productRouter";
+import productRouter from "./routers/productRouter";
+import fileUpload from "express-fileupload";
 const app = express();
 const PORT = 5000;
 
@@ -8,7 +9,8 @@ const MONGO_URI =
   "mongodb+srv://user:user@cluster0.p1fsqgv.mongodb.net/?retryWrites=true&w=majority";
 
 app.use(express.json());
-
+app.use(fileUpload());
+app.use(express.static("static"));
 const startApp = async () => {
   try {
     mongoose.set("strictQuery", true);
@@ -36,6 +38,5 @@ appRouter.get("/", (req: express.Request, res: express.Response) => {
 //   res.status(404).send("Not found");
 // });
 
-
 app.use(appRouter);
-app.use("/api", productRouter)
+app.use("/api", productRouter);

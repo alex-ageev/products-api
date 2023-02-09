@@ -1,16 +1,15 @@
-import ProductModel from "./ProductModel";
+import ProductModel from "../models/ProductModel";
+import FileService from "./FileService"
+
 
 class ProductService {
   //product == req.body
-  async create(product: any) {
-    const { name, price, quantity, description, image } = product;
-    const createdProduct = await ProductModel.create({
-      name,
-      price,
-      quantity,
-      description,
-      image,
-    });
+  async create(product: any, image: any) {
+    if (image) {
+      const fileName = FileService.save(image);
+      product = {...product, image: fileName}
+    }
+    const createdProduct = await ProductModel.create(product);
     return createdProduct;
   }
   async getAll() {

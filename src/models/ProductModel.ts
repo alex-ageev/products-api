@@ -5,8 +5,9 @@ const ProductSchema = new mongoose.Schema({
   description: { type: String, required: true },
   price: { type: Number, required: true },
   quantity: { type: Number, required: true },
-  image: { type: String },
+  image: { type: String, default: 'no-image.png' },
   createdAt: { type: Date, required: true, default: Date.now() },
+  ean: {type: String}
 });
 
 interface Product extends mongoose.Document {
@@ -15,6 +16,7 @@ interface Product extends mongoose.Document {
   price: number;
   quantity: number;
   image?: string;
+  ean?: string;
 }
 
 export default mongoose.model<Product>("Product", ProductSchema);

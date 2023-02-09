@@ -1,12 +1,17 @@
 
-import ProductModel from "./ProductModel";
-import ProductService from "./ProductService";
+import ProductModel from "../models/ProductModel";
+import ProductService from "../services/ProductService";
 import { NextFunction, Request, Response } from "express";
-
+import {validationResult} from "express-validator";
 class ProductController {
   async create(req: Request, res: Response, next: NextFunction) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(400).send({errors: errors.array()})
+    }
     try {
-      const product = await ProductService.create(req.body)
+      const image = req.files?.image;
+      const product = await ProductService.create(req.body, image)
       res.status(201).send(product);
     } catch (error) {
       console.log(error);
