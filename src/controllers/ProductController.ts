@@ -1,17 +1,15 @@
-
-import ProductModel from "../models/ProductModel";
 import ProductService from "../services/ProductService";
 import { NextFunction, Request, Response } from "express";
-import {validationResult} from "express-validator";
+import { validationResult } from "express-validator";
 class ProductController {
   async create(req: Request, res: Response, next: NextFunction) {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      res.status(400).send({errors: errors.array()})
+      res.status(400).send({ errors: errors.array() });
     }
     try {
       const image = req.files?.image;
-      const product = await ProductService.create(req.body, image)
+      const product = await ProductService.create(req.body, image);
       res.status(201).send(product);
     } catch (error) {
       console.log(error);
@@ -20,7 +18,7 @@ class ProductController {
   }
   async getAll(req: Request, res: Response) {
     try {
-      const products = await ProductService.getAll()
+      const products = await ProductService.getAll();
       res.status(200).send(products);
     } catch (error) {
       console.log(error);
@@ -52,7 +50,7 @@ class ProductController {
       const { id } = req.params;
       const product = await ProductService.delete(id);
       console.log(product);
-      res.status(200).send({message: "Product deleted"});
+      res.status(200).send({ message: "Product deleted" });
     } catch (error) {
       console.log(error);
       res.status(500).send({ message: "Failed to delete product.", error });

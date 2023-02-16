@@ -1,12 +1,14 @@
 import express from "express";
 import mongoose from "mongoose";
 import productRouter from "./routers/productRouter";
+import userRouter from "./routers/userRouter";
 import fileUpload from "express-fileupload";
+import errorMiddleware from "./middlewares/errorMiddleware"
 const app = express();
 const PORT = 5000;
 
 const MONGO_URI =
-  "mongodb+srv://user:user@cluster0.p1fsqgv.mongodb.net/?retryWrites=true&w=majority";
+  "mongodb+srv://user:user@cluster0.p1fsqgv.mongodb.net?retryWrites=true&w=majority";
 
 app.use(express.json());
 app.use(fileUpload());
@@ -40,3 +42,6 @@ appRouter.get("/", (req: express.Request, res: express.Response) => {
 
 app.use(appRouter);
 app.use("/api", productRouter);
+app.use("/user", userRouter);
+
+app.use(errorMiddleware);

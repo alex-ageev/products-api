@@ -1,5 +1,4 @@
-import { Router, Request, Response } from "express";
-import ProductModel from "../models/ProductModel";
+import { Router } from "express";
 import ProductController from "../controllers/ProductController";
 import { check } from "express-validator";
 
